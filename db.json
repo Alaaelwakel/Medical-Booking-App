@@ -1,0 +1,39 @@
+{
+  "users": [
+    { "id": 1, "name": "Admin User", "email": "admin@clinic.com", "role": "admin", "password": "password123", "isBlocked": false },
+    { "id": 2, "name": "Patient Zero", "email": "patient@mail.com", "role": "patient", "password": "password123", "isBlocked": false }
+  ],
+  "doctors": [
+    {
+      "id": 1,
+      "name": "Dr. Sarah Jenkins",
+      "specialty": "Cardiology",
+      "rating": 4.8,
+      "bio": "Expert in cardiovascular health.",
+      "isBlocked": false
+    },
+    {
+      "id": 2,
+      "name": "Dr. Ahmed Youssef",
+      "specialty": "Dermatology",
+      "rating": 4.5,
+      "bio": "Specializes in skin care and laser treatments.",
+      "isBlocked": false
+    }
+  ],
+  "appointments": [
+    {
+      "id": 1,
+      "patientId": 2,
+      "doctorId": 1,
+      "date": "2026-06-25",
+      "time": "10:00 AM",
+      "status": "scheduled"
+    }
+  ],
+  "specialties": [
+    { "id": 1, "name": "Cardiology" },
+    { "id": 2, "name": "Dermatology" },
+    { "id": 3, "name": "Neurology" }
+  ]
+}
