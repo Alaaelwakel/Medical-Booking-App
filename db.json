@@ -1,11 +1,65 @@
 {
   "users": [
-    { "id": 1, "name": "Admin User", "email": "admin@clinic.com", "role": "admin", "password": "password123", "isBlocked": false },
-    { "id": 2, "name": "Patient Zero", "email": "patient@mail.com", "role": "patient", "password": "password123", "isBlocked": false }
+    {
+      "id": "1",
+      "name": "Admin User",
+      "email": "admin@clinic.com",
+      "role": "admin",
+      "password": "password123",
+      "isBlocked": false
+    },
+    {
+      "id": "2",
+      "name": "Patient Zero",
+      "email": "patient@mail.com",
+      "role": "patient",
+      "password": "password123",
+      "isBlocked": false
+    },
+    {
+      "name": "Ahmed",
+      "email": "ahmed@test.com",
+      "password": "1234",
+      "role": "doctor",
+      "isBlocked": false,
+      "id": "VQQjeREV1bU"
+    },
+    {
+      "name": "Ahmeddd",
+      "email": "ahmeddd@test.com",
+      "password": "12345",
+      "role": "doctor",
+      "isBlocked": false,
+      "id": "NqjbuCteZQw"
+    },
+    {
+      "name": "morad",
+      "email": "morad@test.com",
+      "password": "7894",
+      "role": "doctor",
+      "isBlocked": false,
+      "id": "lKgSZKxU194"
+    },
+    {
+      "name": "ali",
+      "email": "ali@test.com",
+      "password": "456",
+      "role": "doctor",
+      "isBlocked": false,
+      "id": "ydBwpcI5g1k"
+    },
+    {
+      "name": "hady",
+      "email": "hady@test.com",
+      "password": "123",
+      "role": "admin",
+      "isBlocked": false,
+      "id": "eViKTMWNV_U"
+    }
   ],
   "doctors": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Dr. Sarah Jenkins",
       "specialty": "Cardiology",
       "rating": 4.8,
@@ -13,7 +67,7 @@
       "isBlocked": false
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Dr. Ahmed Youssef",
       "specialty": "Dermatology",
       "rating": 4.5,
@@ -23,7 +77,7 @@
   ],
   "appointments": [
     {
-      "id": 1,
+      "id": "1",
       "patientId": 2,
       "doctorId": 1,
       "date": "2026-06-25",
@@ -32,8 +86,18 @@
     }
   ],
   "specialties": [
-    { "id": 1, "name": "Cardiology" },
-    { "id": 2, "name": "Dermatology" },
-    { "id": 3, "name": "Neurology" }
-  ]
+    {
+      "id": "1",
+      "name": "Cardiology"
+    },
+    {
+      "id": "2",
+      "name": "Dermatology"
+    },
+    {
+      "id": "3",
+      "name": "Neurology"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

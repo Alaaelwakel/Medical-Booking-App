@@ -3,160 +3,164 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemText
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
+  Box
 } from "@mui/material";
 
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import PersonIcon from "@mui/icons-material/Person";
+import GroupIcon from "@mui/icons-material/Group";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
 
-
 import useAuth from "../../hooks/useAuth";
 
+function Sidebar() {
+
+  const navigate = useNavigate();
+
+  const { user } = useAuth();
+
+  const { t } = useTranslation();
 
 
-function Sidebar(){
+  const menu = {
+
+    patient: [
+      {
+        text: "dashboard",
+        path: "/patient",
+        icon: <DashboardIcon />
+      },
+      {
+        text: "appointments",
+        path: "/patient",
+        icon: <EventNoteIcon />
+      },
+      {
+        text: "profile",
+        path: "/patient",
+        icon: <PersonIcon />
+      }
+    ],
+
+    doctor: [
+      {
+        text: "dashboard",
+        path: "/doctor",
+        icon: <DashboardIcon />
+      },
+      {
+        text: "appointments",
+        path: "/doctor",
+        icon: <EventNoteIcon />
+      },
+      {
+        text: "profile",
+        path: "/doctor",
+        icon: <PersonIcon />
+      }
+    ],
+
+    admin: [
+      {
+        text: "dashboard",
+        path: "/admin",
+        icon: <DashboardIcon />
+      },
+      {
+        text: "users",
+        path: "/admin",
+        icon: <GroupIcon />
+      },
+      {
+        text: "settings",
+        path: "/admin",
+        icon: <SettingsIcon />
+      }
+    ]
+
+  };
 
 
-const navigate = useNavigate();
-
-const { user } = useAuth();
-
-const { t } = useTranslation();
+  const items = menu[user?.role] || [];
 
 
+  return (
 
-const menu = {
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: 260,
+        flexShrink: 0,
 
+        "& .MuiDrawer-paper": {
+          width: 260,
+          boxSizing: "border-box",
+          top: 64,
+          borderRight: "1px solid rgba(255,255,255,0.1)"
+        }
+      }}
+    >
 
-patient:[
-{
-text:"dashboard",
-path:"/patient"
-},
-{
-text:"appointments",
-path:"/patient"
-},
-{
-text:"profile",
-path:"/patient"
-}
-],
+      <Toolbar />
 
+      <Box sx={{ px: 2, py: 2 }}>
 
-doctor:[
-{
-text:"dashboard",
-path:"/doctor"
-},
-{
-text:"appointments",
-path:"/doctor"
-},
-{
-text:"profile",
-path:"/doctor"
-}
-],
+        <Typography
+          variant="subtitle2"
+          color="text.secondary"
+        >
+          Navigation
+        </Typography>
 
+      </Box>
 
-admin:[
-{
-text:"dashboard",
-path:"/admin"
-},
-{
-text:"users",
-path:"/admin"
-},
-{
-text:"settings",
-path:"/admin"
-}
+      <List>
 
-]
+        {items.map((item) => (
 
+          <ListItem
+            key={item.text}
+            disablePadding
+          >
 
-};
+            <ListItemButton
+              onClick={() => navigate(item.path)}
+              sx={{
+                mx: 1,
+                borderRadius: 2,
+                mb: 0.5
+              }}
+            >
 
+              <ListItemIcon>
+                {item.icon}
+              </ListItemIcon>
 
+              <ListItemText
+                primary={t(item.text)}
+              />
 
-const items = menu[user?.role] || [];
+            </ListItemButton>
 
+          </ListItem>
 
+        ))}
 
-return (
+      </List>
 
+    </Drawer>
 
-<Drawer
-
-variant="permanent"
-
-sx={{
-width:240,
-
-"& .MuiDrawer-paper":{
-width:240,
-boxSizing:"border-box",
-top:64
-}
-
-}}
-
->
-
-
-
-<List>
-
-
-{
-items.map(item=>(
-
-
-<ListItem
-key={item.text}
-disablePadding
->
-
-
-<ListItemButton
-onClick={()=>navigate(item.path)}
->
-
-
-<ListItemText
-primary={t(item.text)}
-/>
-
-
-
-</ListItemButton>
-
-
-
-</ListItem>
-
-
-))
-
-
-}
-
-
-</List>
-
-
-</Drawer>
-
-
-)
-
+  );
 
 }
-
-
 
 export default Sidebar;

@@ -3,128 +3,98 @@ import {
   Toolbar,
   Typography,
   Button,
-  Box
+  Box,
+  Avatar,
+  Chip
 } from "@mui/material";
 
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import { useTranslation } from "react-i18next";
 
-
 import useAuth from "../../hooks/useAuth";
 
-
 import LanguageSwitcher from "./LanguageSwitcher";
-
 import ThemeToggle from "./ThemeToggle";
-
-
 
 function Navbar() {
 
-
   const { user, logout } = useAuth();
-
 
   const { t } = useTranslation();
 
-
-
   return (
 
-    <AppBar position="fixed">
-
-
+    <AppBar
+      position="fixed"
+      elevation={2}
+    >
       <Toolbar>
-
-
-
-        <Typography
-          variant="h6"
-          sx={{ flexGrow: 1 }}
-        >
-
-          {t("appName")}
-
-        </Typography>
-
-
-
-
 
         <Box
           sx={{
-            display:"flex",
-            alignItems:"center",
-            gap:2
+            display: "flex",
+            alignItems: "center",
+            gap: 1.5,
+            flexGrow: 1
           }}
         >
 
-
-
-
-
-          <Typography>
-
-            {user?.name || "User"}
-
-          </Typography>
-
-
-
-
+          <LocalHospitalIcon />
 
           <Typography
-            variant="body2"
-            sx={{opacity:0.7}}
+            variant="h6"
+            fontWeight="bold"
           >
-
-            ({user?.role})
-
+            {t("appName")}
           </Typography>
-
-
-
-
-
-          {/* Language Button */}
-          <LanguageSwitcher />
-
-
-
-          {/* Dark / Light Mode Button */}
-          <ThemeToggle />
-
-
-
-
-
-          <Button
-            color="inherit"
-            onClick={logout}
-          >
-
-            {t("logout")}
-
-          </Button>
-
-
-
-
 
         </Box>
 
 
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2
+          }}
+        >
+
+          <LanguageSwitcher />
+
+          <ThemeToggle />
+
+          <Chip
+            label={user?.role || "patient"}
+            color="primary"
+            size="small"
+          />
+
+          <Avatar>
+            {user?.name?.charAt(0)?.toUpperCase() || "U"}
+          </Avatar>
+
+          <Typography
+            fontWeight="500"
+          >
+            {user?.name || "User"}
+          </Typography>
+
+          <Button
+            color="inherit"
+            startIcon={<LogoutIcon />}
+            onClick={logout}
+          >
+            {t("logout")}
+          </Button>
+
+        </Box>
 
       </Toolbar>
-
-
-
     </AppBar>
 
   );
-
 }
-
-
 
 export default Navbar;
