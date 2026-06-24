@@ -79,6 +79,14 @@
       "role": "patient",
       "isBlocked": false,
       "id": "2b5EKXiqyE4"
+    },
+    {
+      "name": "mohamed",
+      "email": "mohamed@test.com",
+      "password": "ahmed123",
+      "role": "doctor",
+      "isBlocked": false,
+      "id": "IEHcz9Hz6mY"
     }
   ],
   "doctors": [
