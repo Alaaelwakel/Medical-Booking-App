@@ -1,11 +1,35 @@
 {
   "users": [
-    { "id": 1, "name": "Admin User", "email": "admin@clinic.com", "role": "admin", "password": "password123", "isBlocked": false },
-    { "id": 2, "name": "Patient Zero", "email": "patient@mail.com", "role": "patient", "password": "password123", "isBlocked": false }
+    {
+      "id": "1",
+      "name": "Admin User",
+      "email": "admin@clinic.com",
+      "role": "admin",
+      "password": "password123",
+      "isBlocked": false
+    },
+    {
+      "id": "2",
+      "name": "Patient Zero",
+      "email": "patient@mail.com",
+      "role": "patient",
+      "password": "password123",
+      "isBlocked": false
+    },
+    {
+      "name": "Alaa Elwakeel",
+      "email": "Elwekel62@gmail.com",
+      "password": "123456Ee$",
+      "role": "patient",
+      "phone": "",
+      "isBlocked": false,
+      "createdAt": "2026-06-24",
+      "id": "1da3skXsGt4"
+    }
   ],
   "doctors": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Dr. Sarah Jenkins",
       "specialty": "Cardiology",
       "rating": 4.8,
@@ -13,7 +37,7 @@
       "isBlocked": false
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Dr. Ahmed Youssef",
       "specialty": "Dermatology",
       "rating": 4.5,
@@ -23,7 +47,7 @@
   ],
   "appointments": [
     {
-      "id": 1,
+      "id": "1",
       "patientId": 2,
       "doctorId": 1,
       "date": "2026-06-25",
@@ -32,8 +56,18 @@
     }
   ],
   "specialties": [
-    { "id": 1, "name": "Cardiology" },
-    { "id": 2, "name": "Dermatology" },
-    { "id": 3, "name": "Neurology" }
-  ]
+    {
+      "id": "1",
+      "name": "Cardiology"
+    },
+    {
+      "id": "2",
+      "name": "Dermatology"
+    },
+    {
+      "id": "3",
+      "name": "Neurology"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
