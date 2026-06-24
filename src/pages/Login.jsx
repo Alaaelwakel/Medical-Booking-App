@@ -1,24 +1,43 @@
 import {
- TextField,
- Button,
- Box,
- Typography,
- Paper,
- Avatar
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Paper,
+  Avatar,
+  Alert
 } from "@mui/material";
-
 
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-import {useState} from "react";
-
-import {useNavigate} from "react-router-dom";
-
-import {useTranslation} from "react-i18next";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 
 import useAuth from "../hooks/useAuth";
+
+
+
+const schema = yup.object({
+
+  email: yup
+    .string()
+    .email("Invalid email")
+    .required("Email is required"),
+
+
+  password: yup
+    .string()
+    .min(6,"Password must be at least 6 characters")
+    .required("Password is required")
+
+
+});
 
 
 
@@ -27,72 +46,71 @@ function Login(){
 
 const {login}=useAuth();
 
-
 const navigate=useNavigate();
-
 
 const {t}=useTranslation();
 
 
-
-const [email,setEmail]=useState("");
-
-const [password,setPassword]=useState("");
+const [error,setError]=useState("");
 
 
 
+const {
+ register,
+ handleSubmit,
+ formState:{
+  errors
+ }
+
+}=useForm({
+
+ resolver:yupResolver(schema)
+
+});
 
 
-const handleSubmit=async(e)=>{
 
 
-e.preventDefault();
+const submit = async(data)=>{
 
 
+setError("");
 
 try{
 
 
-const user = await login(
- email,
- password
+const user =
+await login(
+ data.email,
+ data.password
 );
 
 
 
-if(user.role==="patient"){
-
+if(user.role==="patient")
  navigate("/patient");
 
-}
 
-
-else if(user.role==="doctor"){
-
+else if(user.role==="doctor")
  navigate("/doctor");
 
-}
 
-
-else if(user.role==="admin"){
-
+else if(user.role==="admin")
  navigate("/admin");
-
-}
-
 
 
 }
 
 catch(err){
 
- alert("Invalid email or password");
+setError(
+"Invalid email or password"
+);
 
 }
 
 
 };
-
 
 
 
@@ -112,7 +130,9 @@ display:"flex",
 
 justifyContent:"center",
 
-alignItems:"center"
+alignItems:"center",
+
+px:2
 
 }}
 
@@ -125,7 +145,9 @@ elevation={8}
 
 sx={{
 
-width:400,
+width:"100%",
+
+maxWidth:420,
 
 p:4,
 
@@ -134,6 +156,7 @@ borderRadius:4
 }}
 
 >
+
 
 
 <Box
@@ -160,10 +183,14 @@ mb:3
 </Avatar>
 
 
-
 <Typography
+
 variant="h4"
+
+fontWeight="bold"
+
 mt={2}
+
 >
 
 {t("login")}
@@ -176,12 +203,28 @@ mt={2}
 
 
 
+{
+error &&
+
+<Alert severity="error">
+
+{error}
+
+</Alert>
+
+}
+
+
+
+
 
 <Box
 
 component="form"
 
-onSubmit={handleSubmit}
+onSubmit={
+handleSubmit(submit)
+}
 
 sx={{
 
@@ -200,10 +243,14 @@ gap:2
 
 label={t("email")}
 
-value={email}
+{...register("email")}
 
-onChange={
-(e)=>setEmail(e.target.value)
+error={
+!!errors.email
+}
+
+helperText={
+errors.email?.message
 }
 
 />
@@ -216,13 +263,18 @@ label={t("password")}
 
 type="password"
 
-value={password}
+{...register("password")}
 
-onChange={
-(e)=>setPassword(e.target.value)
+error={
+!!errors.password
+}
+
+helperText={
+errors.password?.message
 }
 
 />
+
 
 
 
@@ -242,8 +294,6 @@ size="large"
 
 
 
-
-
 <Button
 
 onClick={()=>navigate("/register")}
@@ -255,9 +305,7 @@ Create Account
 </Button>
 
 
-
 </Box>
-
 
 
 </Paper>
@@ -270,7 +318,6 @@ Create Account
 
 
 }
-
 
 
 export default Login;

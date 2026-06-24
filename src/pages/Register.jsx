@@ -1,11 +1,12 @@
 import {
- Box,
- TextField,
- Button,
- Typography,
- Paper,
- Avatar,
- MenuItem
+Box,
+TextField,
+Button,
+Typography,
+Paper,
+Avatar,
+MenuItem,
+Alert
 } from "@mui/material";
 
 
@@ -17,7 +18,60 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 
+import {
+useForm
+} from "react-hook-form";
+
+
+import {
+yupResolver
+} from "@hookform/resolvers/yup";
+
+
+import * as yup from "yup";
+
+
 import useAuth from "../hooks/useAuth";
+
+
+
+
+
+const schema = yup.object({
+
+name:yup
+.string()
+.required("Name is required"),
+
+
+email:yup
+.string()
+.email("Invalid email")
+.required("Email is required"),
+
+
+password:yup
+.string()
+.min(6,"Minimum 6 characters")
+.required("Password is required"),
+
+
+confirmPassword:yup
+.string()
+.oneOf(
+[yup.ref("password")],
+"Passwords must match"
+)
+.required("Confirm password required"),
+
+
+role:yup
+.string()
+.required("Role is required")
+
+});
+
+
 
 
 
@@ -25,41 +79,68 @@ import useAuth from "../hooks/useAuth";
 function Register(){
 
 
-const {register}=useAuth();
 
+const {register:registerUser}=useAuth();
 
 const navigate=useNavigate();
 
 
-
-const [name,setName]=useState("");
-
-const [email,setEmail]=useState("");
-
-const [password,setPassword]=useState("");
-
-const [role,setRole]=useState("patient");
+const [error,setError]=useState("");
 
 
 
 
 
-const submit=async(e)=>{
+const {
+register,
+handleSubmit,
+setValue,
+watch,
+formState:{
+errors
+}
+
+}=useForm({
+
+resolver:yupResolver(schema),
+
+defaultValues:{
+
+role:"patient"
+
+}
+
+});
 
 
-e.preventDefault();
 
 
 
-const user = await register({
+const role =
+watch("role");
 
-name,
 
-email,
 
-password,
 
-role,
+
+
+
+const submit=async(data)=>{
+
+
+try{
+
+
+const user =
+await registerUser({
+
+name:data.name,
+
+email:data.email,
+
+password:data.password,
+
+role:data.role,
 
 isBlocked:false
 
@@ -67,29 +148,29 @@ isBlocked:false
 
 
 
-
-if(user.role==="patient"){
-
+if(user.role==="patient")
 navigate("/patient");
 
-}
 
-
-else if(user.role==="doctor"){
-
+else if(user.role==="doctor")
 navigate("/doctor");
 
+
+else if(user.role==="admin")
+navigate("/admin");
+
+
 }
 
+catch(err){
 
-else if(user.role==="admin"){
-
-navigate("/admin");
+setError("Registration failed");
 
 }
 
 
 };
+
 
 
 
@@ -117,34 +198,18 @@ alignItems:"center"
 >
 
 
+
 <Paper
 
 elevation={8}
 
 sx={{
 
-width:400,
-
 p:4,
 
+width:420,
+
 borderRadius:4
-
-}}
-
->
-
-
-<Box
-
-sx={{
-
-display:"flex",
-
-flexDirection:"column",
-
-alignItems:"center",
-
-mb:3
 
 }}
 
@@ -171,7 +236,18 @@ Register
 </Typography>
 
 
-</Box>
+
+
+{
+error &&
+
+<Alert severity="error">
+
+{error}
+
+</Alert>
+
+}
 
 
 
@@ -181,7 +257,9 @@ Register
 
 component="form"
 
-onSubmit={submit}
+onSubmit={
+handleSubmit(submit)
+}
 
 sx={{
 
@@ -201,11 +279,11 @@ gap:2
 
 label="Name"
 
-value={name}
+{...register("name")}
 
-onChange={
-(e)=>setName(e.target.value)
-}
+error={!!errors.name}
+
+helperText={errors.name?.message}
 
 />
 
@@ -215,11 +293,11 @@ onChange={
 
 label="Email"
 
-value={email}
+{...register("email")}
 
-onChange={
-(e)=>setEmail(e.target.value)
-}
+error={!!errors.email}
+
+helperText={errors.email?.message}
 
 />
 
@@ -231,13 +309,31 @@ label="Password"
 
 type="password"
 
-value={password}
+{...register("password")}
 
-onChange={
-(e)=>setPassword(e.target.value)
-}
+error={!!errors.password}
+
+helperText={errors.password?.message}
 
 />
+
+
+
+<TextField
+
+label="Confirm Password"
+
+type="password"
+
+{...register("confirmPassword")}
+
+error={!!errors.confirmPassword}
+
+helperText={errors.confirmPassword?.message}
+
+/>
+
+
 
 
 
@@ -250,7 +346,7 @@ label="Role"
 value={role}
 
 onChange={
-(e)=>setRole(e.target.value)
+(e)=>setValue("role",e.target.value)
 }
 
 >
@@ -276,20 +372,18 @@ Admin
 
 
 
+
 <Button
 
 type="submit"
 
 variant="contained"
 
-size="large"
-
 >
 
 Register
 
 </Button>
-
 
 
 
@@ -318,7 +412,6 @@ Back To Login
 
 
 }
-
 
 
 export default Register;

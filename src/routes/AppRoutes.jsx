@@ -1,104 +1,275 @@
 import {
-  Routes,
-  Route,
-  Navigate
+Routes,
+Route,
+Navigate
 } from "react-router-dom";
+
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 
+
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 
-import Layout from "../components/common/Layout";
+
+import MainLayout from "../layouts/MainLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 
-function AppRoutes() {
 
-  return (
-
-    <Routes>
-
-      <Route
-        path="/"
-        element={<Navigate to="/login" replace />}
-      />
+function AppRoutes(){
 
 
-      <Route
-        path="/login"
-        element={<Login />}
-      />
+return (
+
+<Routes>
 
 
-      <Route
-        path="/register"
-        element={<Register />}
-      />
+
+<Route
+
+path="/"
+
+element={
+<Navigate to="/login" replace />
+}
+
+/>
 
 
-      <Route
-        path="/patient"
-        element={
-
-          <ProtectedRoute allowedRoles={["patient"]}>
-
-            <Layout>
-
-              <h1>Patient Dashboard</h1>
-
-            </Layout>
-
-          </ProtectedRoute>
-
-        }
-      />
 
 
-      <Route
-        path="/doctor"
-        element={
+<Route
 
-          <ProtectedRoute allowedRoles={["doctor"]}>
+path="/login"
 
-            <Layout>
+element={
 
-              <h1>Doctor Dashboard</h1>
+<MainLayout>
 
-            </Layout>
+<Login />
 
-          </ProtectedRoute>
-
-        }
-      />
-
-
-      <Route
-        path="/admin"
-        element={
-
-          <ProtectedRoute allowedRoles={["admin"]}>
-
-            <Layout>
-
-              <h1>Admin Dashboard</h1>
-
-            </Layout>
-
-          </ProtectedRoute>
-
-        }
-      />
-
-
-      <Route
-        path="*"
-        element={<h1>404 Not Found</h1>}
-      />
-
-    </Routes>
-
-  );
+</MainLayout>
 
 }
+
+/>
+
+
+
+
+<Route
+
+path="/register"
+
+element={
+
+<MainLayout>
+
+<Register />
+
+</MainLayout>
+
+}
+
+/>
+
+
+
+
+
+
+
+<Route
+
+path="/patient"
+
+element={
+
+
+<ProtectedRoute allowedRoles={["patient"]}>
+
+
+<DashboardLayout>
+
+
+<h1>
+Patient Dashboard
+</h1>
+
+
+</DashboardLayout>
+
+
+</ProtectedRoute>
+
+
+}
+
+
+/>
+
+
+
+
+
+
+
+<Route
+
+path="/doctor"
+
+element={
+
+
+<ProtectedRoute allowedRoles={["doctor"]}>
+
+
+<DashboardLayout>
+
+
+<h1>
+Doctor Dashboard
+</h1>
+
+
+</DashboardLayout>
+
+
+</ProtectedRoute>
+
+
+}
+
+
+/>
+
+
+
+
+
+
+
+<Route
+
+path="/admin"
+
+element={
+
+
+<ProtectedRoute allowedRoles={["admin"]}>
+
+
+<DashboardLayout>
+
+
+<h1>
+Admin Dashboard
+</h1>
+
+
+</DashboardLayout>
+
+
+</ProtectedRoute>
+
+
+}
+
+
+/>
+
+
+
+
+
+
+
+{/* Placeholder Routes */}
+
+<Route
+
+path="/doctors"
+
+element={
+
+<div>
+
+Coming Soon
+
+</div>
+
+}
+
+/>
+
+
+
+
+<Route
+
+path="/doctors/:id"
+
+element={
+
+<div>
+
+Coming Soon
+
+</div>
+
+}
+
+/>
+
+
+
+
+
+<Route
+
+path="/profile/edit"
+
+element={
+
+<div>
+
+Coming Soon
+
+</div>
+
+}
+
+/>
+
+
+
+
+
+
+
+<Route
+
+path="*"
+
+element={
+<h1>
+404 Not Found
+</h1>
+}
+
+/>
+
+
+
+
+
+</Routes>
+
+);
+
+
+}
+
 
 export default AppRoutes;

@@ -5,11 +5,20 @@ import {
 } from "react";
 
 
+import {
+  loginApi,
+  registerApi
+} from "../api/authApi";
+
+
+
 export const AuthContext = createContext();
 
 
 
+
 function AuthProvider({ children }) {
+
 
 
   const [user, setUser] = useState(null);
@@ -18,13 +27,16 @@ function AuthProvider({ children }) {
 
   useEffect(()=>{
 
+
     const savedUser =
       localStorage.getItem("user");
 
 
     if(savedUser){
 
-      setUser(JSON.parse(savedUser));
+      setUser(
+        JSON.parse(savedUser)
+      );
 
     }
 
@@ -34,41 +46,42 @@ function AuthProvider({ children }) {
 
 
 
-  const login = async(email,password)=>{
+
+  const login = async(
+    email,
+    password
+  )=>{
 
 
-    const response = await fetch(
-      `http://localhost:5000/users?email=${email}&password=${password}`
-    );
-
-
-    const data = await response.json();
-
-
-
-    if(data.length === 0){
-
-      throw new Error("Invalid");
-
-    }
-
+    const userData =
+      await loginApi(
+        email,
+        password
+      );
 
 
 
     const authData = {
 
-      ...data[0],
+
+      ...userData,
+
 
       token:
       "medical-token-" + Date.now()
+
 
     };
 
 
 
+
     localStorage.setItem(
+
       "user",
+
       JSON.stringify(authData)
+
     );
 
 
@@ -80,7 +93,9 @@ function AuthProvider({ children }) {
     return authData;
 
 
+
   };
+
 
 
 
@@ -90,45 +105,42 @@ function AuthProvider({ children }) {
   const register = async(userData)=>{
 
 
-    const response = await fetch(
-      "http://localhost:5000/users",
-      {
-
-        method:"POST",
-
-        headers:{
-          "Content-Type":"application/json"
-        },
-
-
-        body:JSON.stringify(userData)
-
-      }
-    );
-
-
 
     const newUser =
-      await response.json();
+      await registerApi(
+        userData
+      );
 
 
 
 
     const authData = {
 
+
+
       ...newUser,
+
+
 
       token:
       "medical-token-" + Date.now()
+
+
 
     };
 
 
 
+
+
     localStorage.setItem(
+
       "user",
+
       JSON.stringify(authData)
+
     );
+
 
 
 
@@ -136,9 +148,15 @@ function AuthProvider({ children }) {
 
 
 
+
     return authData;
 
+
+
   };
+
+
+
 
 
 
@@ -148,9 +166,15 @@ function AuthProvider({ children }) {
   const logout = ()=>{
 
 
-    localStorage.removeItem("user");
+
+    localStorage.removeItem(
+      "user"
+    );
+
+
 
     setUser(null);
+
 
 
   };
@@ -160,27 +184,39 @@ function AuthProvider({ children }) {
 
 
 
+
+
   return (
+
+
 
     <AuthContext.Provider
 
-    value={{
-      user,
-      login,
-      register,
-      logout
-    }}
+
+      value={{
+        user,
+        login,
+        register,
+        logout
+      }}
+
 
     >
 
+
       {children}
 
+
     </AuthContext.Provider>
+
+
 
   );
 
 
+
 }
+
 
 
 

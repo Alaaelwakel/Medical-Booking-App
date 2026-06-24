@@ -55,6 +55,30 @@
       "role": "admin",
       "isBlocked": false,
       "id": "eViKTMWNV_U"
+    },
+    {
+      "name": "momo",
+      "email": "momo@test.com",
+      "password": "4565",
+      "role": "doctor",
+      "isBlocked": false,
+      "id": "JHJ53KdjB-o"
+    },
+    {
+      "name": "mo",
+      "email": "mo@test.com",
+      "password": "123456",
+      "role": "doctor",
+      "isBlocked": false,
+      "id": "10tOWcjk9jc"
+    },
+    {
+      "name": "patient1",
+      "email": "patient1@test.com",
+      "password": "789456",
+      "role": "patient",
+      "isBlocked": false,
+      "id": "2b5EKXiqyE4"
     }
   ],
   "doctors": [
